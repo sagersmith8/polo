@@ -1,0 +1,43 @@
+[versions]
+bean-validation = "3.1.0"
+coroutines = "1.8.0"
+flyway = "9.16.0"
+hikaricp = "5.0.0"
+jackson = "2.18.0"
+jakarta-ws-rs = "4.0.0"
+jakarta-annotations = "3.0.0"
+jersey = "3.1.9"
+jetty = "12.0.14"
+jooq = "3.18.2"
+logback-classic = "1.4.12"
+kotlin = "1.9.25"
+postgresql = "42.6.0"
+slf4j = "2.0.9"
+
+[libraries]
+coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
+hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
+jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
+jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jackson-jaxrs-json-provider = { module = "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider", version.ref = "jackson" }
+jakarta-annotation-api = { module = "jakarta.annotation:jakarta.annotation-api", version.ref = "jakarta-annotations" }
+jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api", version.ref = "bean-validation" }
+jakarta-ws-rs-api = { module = "jakarta.ws.rs:jakarta.ws.rs-api", version.ref = "jakarta-ws-rs" }
+jersey-container-servlet = { module = "org.glassfish.jersey.containers:jersey-container-servlet", version.ref = "jersey" }
+jersey-hk2 = { group = "org.glassfish.jersey.inject", name = "jersey-hk2", version.ref = "jersey" }
+jersey-server = { module = "org.glassfish.jersey.core:jersey-server", version.ref = "jersey" }
+jetty-server = { module = "org.eclipse.jetty:jetty-server", version.ref = "jetty" }
+jetty-servlet = { module = "org.eclipse.jetty.ee10:jetty-ee10-servlet", version.ref = "jetty" }
+jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
+jooq-meta = { module = "org.jooq:jooq-meta", version.ref = "jooq" }
+jooq-codegen = { module = "org.jooq:jooq-codegen", version.ref = "jooq" }
+logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
+postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
+slf4j-api = { module = "org.slf4j:slf4j-qpi", version.ref = "slf4j" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+flyway = { id = "org.flywaydb.flyway", version.ref = "flyway" }
+jooq = { id = "nu.studer.jooq", version = "7.1" }
+open-api-generator = { id = "org.openapi.generator", version = "7.9.0" }

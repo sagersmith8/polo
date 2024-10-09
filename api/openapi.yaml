@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: User API
+  description: API for creating and retrieving users
+  version: 1.0.0
+servers:
+  - url: https://api.example.com/v1
+    description: Example server
+paths:
+  /users:
+    post:
+      summary: Create a new user
+      operationId: createUser
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: John Doe
+                phone:
+                  type: string
+                  pattern: '^\+?[1-9]\d{1,14}$'
+                  example: '+1234567890'
+                password:
+                  type: string
+                  format: password
+                  example: 'password123'
+              required:
+                - name
+                - phone
+                - password
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Bad request
+        '500':
+          description: Server error
+
+    get:
+      summary: Get all users
+      operationId: getUsers
+      tags:
+        - Users
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '500':
+          description: Server error
+
+  /users/{userId}:
+    get:
+      summary: Get a user by ID
+      operationId: getUserById
+      tags:
+        - Users
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: '1'
+      responses:
+        '200':
+          description: User found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          example: '1'
+        name:
+          type: string
+          example: John Doe
+        phone:
+          type: string
+          example: '+1234567890'
+      required:
+        - id
+        - name
+        - phone
