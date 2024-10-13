@@ -1,30 +1,80 @@
 package com.polo.api
 
-import com.polo.api.model.CreateUserRequest
+import com.polo.api.model.JsonPatchInner
 import com.polo.api.model.User
 import com.polo.data.DatabaseManager
-import com.polo.data.operations.user.CreateUser
+import com.polo.data.operations.user.*
+import com.polo.net.rest.Patch
 
 class UsersApiImpl(private val databaseManager: DatabaseManager): UsersApi {
-    override suspend fun createUser(createUserRequest: CreateUserRequest): User {
-        val user = databaseManager.execute(
+    override suspend fun createUser(user: User): User {
+        return databaseManager.execute(
             CreateUser(
-                createUserRequest.phone
+                firstName = user.firstName,
+                lastName = user.lastName,
+                email = user.email,
+                phoneNumber = user.phone
             )
-        )
-        return User(
-            id = "",
-            name = "",
-            phone = user.phoneNumber,
+        ).let { createdUser ->
+            User(
+                firstName = createdUser.firstName,
+                lastName = createdUser.lastName,
+                email = createdUser.email,
+                phone = createdUser.phoneNumber,
+            )
+        }
+    }
+
+    override suspend fun deleteUser(email: String) {
+        databaseManager.execute(
+            DeleteUser(email)
         )
     }
 
-    override suspend fun getUserById(userId: String): User {
-        TODO("Not yet implemented")
+    override suspend fun getUser(email: String): User {
+        return databaseManager.execute(
+            GetUser(email)
+        ).let { fetchedUser ->
+            User(
+                firstName = fetchedUser.firstName,
+                lastName = fetchedUser.lastName,
+                email = fetchedUser.email,
+                phone = fetchedUser.phoneNumber,
+            )
+        }
     }
 
     override suspend fun getUsers(): List<User> {
-        TODO("Not yet implemented")
+        return databaseManager.execute(
+            GetUsers()
+        ).map { fetchedUser ->
+            User(
+                firstName = fetchedUser.firstName,
+                lastName = fetchedUser.lastName,
+                email = fetchedUser.email,
+                phone = fetchedUser.phoneNumber,
+            )
+        }
     }
 
+    override suspend fun updateUser(email: String, jsonPatchInner: List<JsonPatchInner>): User {
+        val currentUser = databaseManager.execute(
+            GetUser(email)
+        )
+
+        val updatedUser = Patch.apply(currentUser, jsonPatchInner)
+
+        return databaseManager.execute(
+            UpdateUser(
+                updatedUser
+            )
+        ).let { updateUser ->
+            User(
+                firstName = updateUser.firstName,
+                lastName = updateUser.lastName,
+                email = updateUser.email,
+                phone = updateUser.phoneNumber,
+            )
+        }
+    }
 }

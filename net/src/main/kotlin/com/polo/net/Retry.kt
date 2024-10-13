@@ -1,4 +1,4 @@
-package com.polo.core
+package com.polo.net
 
 import kotlinx.coroutines.delay
 

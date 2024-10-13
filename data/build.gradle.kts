@@ -15,7 +15,7 @@ dependencies {
     implementation(libs.hikaricp)
     implementation(libs.postgresql)
 
-    implementation(project(":core"))
+    implementation(project(":net"))
 }
 
 flyway {

@@ -1,12 +1,13 @@
 package com.polo.data.operations
 
-import com.polo.core.BackoffRetry
+import com.polo.net.BackoffRetry
 import com.polo.data.bindings.tables.references.TRANSACTIONS
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.jooq.*
 import org.jooq.exception.DataAccessException
 import org.jooq.exception.IOException
+import org.jooq.impl.DSL
 import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 import java.sql.SQLTimeoutException
@@ -37,26 +38,28 @@ abstract class ReadOperation<T>(
         }
     }
 
-    fun <R : Record> Table<R>.atDataVersion(
-        dataVersion: Long?
-    ): Table<out Record> {
-        // Assuming BEGIN_TX and END_TX are always present
-        val beginField = checkNotNull(this.field("BEGIN_TX", Long::class.java)) {
-            "Field 'BEGIN_TX' not found in table ${this.name}"
-        }
-        val endField = checkNotNull(this.field("END_TX", Long::class.java)) {
-            "Field 'END_TX' not found in table ${this.name}"
-        }
+    fun <R : Record> DSLContext.selectVersioned(
+        table: Table<R>,
+        readOperationContext: ReadOperationContext
+    ): SelectConditionStep<R> {
+        // Assuming all tables follow the convention of BEGIN_TX and END_TX columns.
+        val beginField = table.field("BEGIN_TX", Long::class.java)!!
+        val endField = table.field("END_TX", Long::class.java)!!
 
-        return if (dataVersion == null) {
-            this // Return the table itself if no versioning is needed
+        return if (readOperationContext.dataVersion == null) {
+            // Fetch the active/current version
+            selectFrom(table).where(endField.isNull)
         } else {
-            this
-                .join(TRANSACTIONS)
-                .on(TRANSACTIONS.TRANSACTION_ID.eq(dataVersion))
-                .and(beginField.le(dataVersion)) // Start before or at the transaction ID
-                .and(endField.isNull.or(endField.ge(dataVersion))) // Still valid or ends after the transaction
+            // Ensure the transaction exists and filter by data version
+            selectFrom(table).where(
+                DSL.exists(
+                    selectOne()
+                        .from(TRANSACTIONS)
+                        .where(TRANSACTIONS.TRANSACTION_ID.eq(readOperationContext.dataVersion))
+                )
+                    .and(beginField.le(readOperationContext.dataVersion))
+                    .and(endField.isNull.or(endField.ge(readOperationContext.dataVersion)))
+            )
         }
     }
-
 }

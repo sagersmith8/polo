@@ -11,9 +11,8 @@ class GetUser(
 
     override fun read(readOperationContext: ReadOperationContext): User {
         val dsl = readOperationContext.dslContext
-        val dataVersion = readOperationContext.dataVersion
-        return dsl.selectFrom(USERS.atDataVersion(dataVersion))
-            .where(USERS.EMAIL.eq(email))
+        return dsl.selectVersioned(USERS, readOperationContext)
+            .and(USERS.EMAIL.eq(email))
             .fetchOneInto(USERS)
             ?.let { user ->
                 User(

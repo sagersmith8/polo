@@ -1,6 +1,6 @@
 rootProject.name = "polo"
 
 include("api")
-include("core")
+include("net")
 include("data")
 include("server")

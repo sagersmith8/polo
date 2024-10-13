@@ -9,4 +9,5 @@ dependencies {
 
     implementation(project(":api"))
     implementation(project(":data"))
+    implementation(project(":net"))
 }

@@ -9,6 +9,7 @@ jakarta-annotations = "3.0.0"
 jersey = "3.1.9"
 jetty = "12.0.14"
 jooq = "3.18.2"
+json-patch = "1.13"
 logback-classic = "1.4.12"
 kotlin = "1.9.25"
 postgresql = "42.7.4"
@@ -19,7 +20,10 @@ coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", ve
 flyway-core = { module = "org.flywaydb:flyway-core", version.ref = "flyway" }
 hikaricp = { module = "com.zaxxer:HikariCP", version.ref = "hikaricp" }
 jackson-annotations = { module = "com.fasterxml.jackson.core:jackson-annotations", version.ref = "jackson" }
+jackson-core = { module = "com.fasterxml.jackson.core:jackson-core", version.ref = "jackson" }
+jackson-databind = { module = "com.fasterxml.jackson.core:jackson-databind", version.ref = "jackson" }
 jackson-datatype-jsr310 = { module = "com.fasterxml.jackson.datatype:jackson-datatype-jsr310", version.ref = "jackson" }
+jackson-module-kotlin = { module = "com.fasterxml.jackson.module:jackson-module-kotlin", version.ref = "jackson" }
 jackson-jaxrs-json-provider = { module = "com.fasterxml.jackson.jaxrs:jackson-jaxrs-json-provider", version.ref = "jackson" }
 jakarta-annotation-api = { module = "jakarta.annotation:jakarta.annotation-api", version.ref = "jakarta-annotations" }
 jakarta-validation-api = { module = "jakarta.validation:jakarta.validation-api", version.ref = "bean-validation" }
@@ -33,6 +37,7 @@ jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-meta = { module = "org.jooq:jooq-meta", version.ref = "jooq" }
 jooq-codegen = { module = "org.jooq:jooq-codegen", version.ref = "jooq" }
 jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
+json-patch = { module = "com.github.java-json-tools:json-patch", version.ref = "json-patch" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 slf4j-api = { module = "org.slf4j:slf4j-qpi", version.ref = "slf4j" }

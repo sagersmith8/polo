@@ -1,6 +1,6 @@
 package com.polo.data.operations
 
-import com.polo.core.BackoffRetry
+import com.polo.net.BackoffRetry
 import com.polo.data.bindings.tables.records.TransactionsRecord
 import com.polo.data.bindings.tables.references.TRANSACTIONS
 import kotlinx.coroutines.Dispatchers
