@@ -8,4 +8,5 @@ dependencies {
     implementation(libs.logback.classic)
 
     implementation(project(":api"))
+    implementation(project(":data"))
 }

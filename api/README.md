@@ -30,19 +30,24 @@ This runs all tests and packages the library.
 <a id="documentation-for-api-endpoints"></a>
 ## Documentation for API Endpoints
 
-All URIs are relative to *https://api.example.com/v1*
+All URIs are relative to *https://localhost:8080*
 
 Class | Method | HTTP request | Description
 ------------ | ------------- | ------------- | -------------
 *UsersApi* | [**createUser**](docs/UsersApi.md#createuser) | **POST** /users | Create a new user
-*UsersApi* | [**getUserById**](docs/UsersApi.md#getuserbyid) | **GET** /users/{userId} | Get a user by ID
+*UsersApi* | [**deleteUser**](docs/UsersApi.md#deleteuser) | **DELETE** /users/{email} | Delete a user by email
+*UsersApi* | [**getUser**](docs/UsersApi.md#getuser) | **GET** /users/{email} | Get a user by email
 *UsersApi* | [**getUsers**](docs/UsersApi.md#getusers) | **GET** /users | Get all users
+*UsersApi* | [**updateUser**](docs/UsersApi.md#updateuser) | **PATCH** /users/{email} | Update a user by Email
 
 
 <a id="documentation-for-models"></a>
 ## Documentation for Models
 
- - [com.polo.api.model.CreateUserRequest](docs/CreateUserRequest.md)
+ - [com.polo.api.model.JsonPatchInner](docs/JsonPatchInner.md)
+ - [com.polo.api.model.JsonPatchInnerOneOf](docs/JsonPatchInnerOneOf.md)
+ - [com.polo.api.model.JsonPatchInnerOneOf1](docs/JsonPatchInnerOneOf1.md)
+ - [com.polo.api.model.JsonPatchInnerOneOf2](docs/JsonPatchInnerOneOf2.md)
  - [com.polo.api.model.User](docs/User.md)
 
 

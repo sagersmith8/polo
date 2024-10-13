@@ -2,7 +2,7 @@
 bean-validation = "3.1.0"
 coroutines = "1.8.0"
 flyway = "9.16.0"
-hikaricp = "5.0.0"
+hikaricp = "6.0.0"
 jackson = "2.18.0"
 jakarta-ws-rs = "4.0.0"
 jakarta-annotations = "3.0.0"
@@ -11,7 +11,7 @@ jetty = "12.0.14"
 jooq = "3.18.2"
 logback-classic = "1.4.12"
 kotlin = "1.9.25"
-postgresql = "42.6.0"
+postgresql = "42.7.4"
 slf4j = "2.0.9"
 
 [libraries]
@@ -32,6 +32,7 @@ jetty-servlet = { module = "org.eclipse.jetty.ee10:jetty-ee10-servlet", version.
 jooq = { module = "org.jooq:jooq", version.ref = "jooq" }
 jooq-meta = { module = "org.jooq:jooq-meta", version.ref = "jooq" }
 jooq-codegen = { module = "org.jooq:jooq-codegen", version.ref = "jooq" }
+jooq-kotlin = { module = "org.jooq:jooq-kotlin", version.ref = "jooq" }
 logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "logback-classic" }
 postgresql = { module = "org.postgresql:postgresql", version.ref = "postgresql" }
 slf4j-api = { module = "org.slf4j:slf4j-qpi", version.ref = "slf4j" }

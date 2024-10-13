@@ -1,6 +1,6 @@
 package com.polo.api;
 
-import com.polo.api.model.CreateUserRequest
+import com.polo.api.model.JsonPatchInner
 import com.polo.api.model.User
 
 import jakarta.ws.rs.*
@@ -20,15 +20,25 @@ interface UsersApi {
     @Path("/users")
     @Consumes("application/json")
     @Produces("application/json")
-    fun createUser(@Valid @NotNull  createUserRequest: CreateUserRequest): User
+    suspend fun createUser(@Valid @NotNull  user: User): User
+
+    @DELETE
+    @Path("/users/{email}")
+    suspend fun deleteUser(@PathParam("email") @Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") email: kotlin.String)
 
     @GET
-    @Path("/users/{userId}")
+    @Path("/users/{email}")
     @Produces("application/json")
-    fun getUserById(@PathParam("userId") userId: kotlin.String): User
+    suspend fun getUser(@PathParam("email") @Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") email: kotlin.String): User
 
     @GET
     @Path("/users")
     @Produces("application/json")
-    fun getUsers(): kotlin.collections.List<User>
+    suspend fun getUsers(): kotlin.collections.List<User>
+
+    @PATCH
+    @Path("/users/{email}")
+    @Consumes("application/json-patch+json")
+    @Produces("application/json")
+    suspend fun updateUser(@PathParam("email") @Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$") email: kotlin.String,@Valid @NotNull  jsonPatchInner: kotlin.collections.List<JsonPatchInner>): User
 }

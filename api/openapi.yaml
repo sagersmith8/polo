@@ -4,8 +4,8 @@ info:
   description: API for creating and retrieving users
   version: 1.0.0
 servers:
-  - url: https://api.example.com/v1
-    description: Example server
+  - url: https://localhost:8080
+    description: Localhost server
 paths:
   /users:
     post:
@@ -18,23 +18,7 @@ paths:
         content:
           application/json:
             schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  example: John Doe
-                phone:
-                  type: string
-                  pattern: '^\+?[1-9]\d{1,14}$'
-                  example: '+1234567890'
-                password:
-                  type: string
-                  format: password
-                  example: 'password123'
-              required:
-                - name
-                - phone
-                - password
+              $ref: '#/components/schemas/User'
       responses:
         '201':
           description: User created successfully
@@ -64,19 +48,14 @@ paths:
         '500':
           description: Server error
 
-  /users/{userId}:
+  /users/{email}:
     get:
-      summary: Get a user by ID
-      operationId: getUserById
+      summary: Get a user by email
+      operationId: getUser
       tags:
         - Users
       parameters:
-        - name: userId
-          in: path
-          required: true
-          schema:
-            type: string
-          example: '1'
+        - $ref: '#/components/parameters/Email'
       responses:
         '200':
           description: User found
@@ -89,21 +68,82 @@ paths:
         '500':
           description: Server error
 
+    delete:
+      summary: Delete a user by email
+      operationId: deleteUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/Email'
+      responses:
+        '204':
+          description: User deleted successfully
+        '404':
+          description: User not found
+        '500':
+          description: Server error
+
+    patch:
+      summary: Update a user by Email
+      operationId: updateUser
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/Email'
+      requestBody:
+        required: true
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: 'https://json.schemastore.org/json-patch'
+      responses:
+        '200':
+          description: User updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found
+        '400':
+          description: Invalid request
+        '500':
+          description: Server error
+
 components:
+  parameters:
+    Email:
+      example: 'johndoe@gmail.com'
+      name: email
+      in: path
+      required: true
+      schema:
+        $ref: '#/components/schemas/Email'
+
   schemas:
+    Email:
+      type: string
+      pattern: '^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$'
+      example: 'johndoe@gmail.com'
     User:
       type: object
       properties:
-        id:
+        first_name:
           type: string
-          example: '1'
-        name:
+          pattern: '^[A-Za-z]{1,50}$'
+          example: John
+        last_name:
           type: string
-          example: John Doe
+          pattern: '^[A-Za-z]{1,50}$'
+          example: Doe
         phone:
           type: string
+          pattern: '^\+?[1-9]\d{1,14}$'
           example: '+1234567890'
+        email:
+          $ref: '#/components/schemas/Email'
       required:
-        - id
-        - name
+        - first_name
+        - last_name
         - phone
+        - email

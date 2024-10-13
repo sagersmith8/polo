@@ -13,6 +13,7 @@ openApiGenerate {
 
     configOptions.put("useTags", "true")  // Optional: Split API into different files per tag
     configOptions.put("useBeanValidation", "true")
+    configOptions.put("useCoroutines", "true")
     configOptions.put("dateLibrary", "java8")
     configOptions.put("interfaceOnly", "true")
     configOptions.put("useJakartaEe", "true")

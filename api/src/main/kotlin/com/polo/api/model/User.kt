@@ -17,31 +17,38 @@ import com.fasterxml.jackson.annotation.JsonProperty
 /**
  * 
  *
- * @param id 
- * @param name 
+ * @param firstName 
+ * @param lastName 
  * @param phone 
+ * @param email 
  */
 
 
 data class User (
 
 
-    @JsonProperty("id")
+    @JsonProperty("first_name")
     @field:Valid
     @field:NotNull
-    val id: kotlin.String,
+ @field:Pattern(regexp="^[A-Za-z]{1,50}$")    val firstName: kotlin.String,
 
 
-    @JsonProperty("name")
+    @JsonProperty("last_name")
     @field:Valid
     @field:NotNull
-    val name: kotlin.String,
+ @field:Pattern(regexp="^[A-Za-z]{1,50}$")    val lastName: kotlin.String,
 
 
     @JsonProperty("phone")
     @field:Valid
     @field:NotNull
-    val phone: kotlin.String
+ @field:Pattern(regexp="^\\+?[1-9]\\d{1,14}$")    val phone: kotlin.String,
+
+
+    @JsonProperty("email")
+    @field:Valid
+    @field:NotNull
+ @field:Pattern(regexp="^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")    val email: kotlin.String
 
 )
 

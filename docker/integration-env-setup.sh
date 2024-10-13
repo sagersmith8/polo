@@ -7,22 +7,23 @@ RED="\033[0;31m"
 NO_COLOR="\033[0m"
 
 dir=$(dirname "$0")
-docker_compose="$dir"/integration-compose.sh
+docker_compose="$dir/integration-compose.sh"
 
+# Corrected syntax for declaring the array
 services_to_log=(
-  postgres: "database system is ready to accept connections"
+  "postgres:database system is ready to accept connections"
 )
 
 function wait_for_service() {
-  if [ $# -lt 2]; then
+  if [ $# -lt 2 ]; then
     echo "No service or search passed"
     exit 1
   fi
   printf "${CYAN}Waiting for $1 to start up fully.${NO_COLOR}\n"
   d_args=("$docker_compose" logs "$1")
-  timeout=$(( $(date + "%s") + 180)) # retries wait 180 seconds
+  timeout=$(( $(date +"%s") + 180)) # retries window of 180 seconds
   while ! "${d_args[@]}" | grep "$2" > /dev/null 2>&1; do
-    if [ "$(date + "%s")" -gt "$timeout"]; then
+    if [ "$(date +%s)" -gt "$timeout" ]; then  # Removed extra space in date command
       printf "${RED}$1 was not ready within 3 minutes.${NO_COLOR}\n"
       exit 1
     fi
@@ -45,7 +46,7 @@ mkdir -p "$logs_dir"
 for i in "${services_to_log[@]}"
 do
   service=${i%%:*}
-  "$docker_compose" logs -f $service > "$logs_dir"/service.log 2>&1 &
+  "$docker_compose" logs -f "$service" > "$logs_dir/service.log" 2>&1 &  # Added quotes around $service
 done
 
 # Wait for the services to start
